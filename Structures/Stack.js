@@ -54,4 +54,89 @@ function display(stack) {
   console.log(result)
 }
 
+function isPalindrome(str) {
+  str = str.toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
+  let reverseStr = '';
+  const stack = new Stack;
+
+  for (let char of str) {
+    stack.push(char)
+  }
+  display(stack);
+
+  while(stack.top) {
+    reverseStr += stack.pop()
+  }
+  return str === reverseStr;
+}
+
+//Checks whether parenthesis are correctly paired
+  //needs fixing I think
+function matchingParens(exp) {
+  const stack = new Stack;
+  let currParen;
+  const tracker = {
+    open: 0,
+    close: 0
+  }
+
+  for (let char of exp) {
+    if (char === '(' || char === ')') {
+      stack.push(char);
+    }
+  }
+  while (stack.top) {
+    currParen = stack.pop()
+    if (currParen === ')') {
+      tracker.close++
+    }
+    else {
+      tracker.open++
+    }
+    if (tracker.open > tracker.close) {
+      console.log('open:', tracker.open)
+      console.log('close:', tracker.close)
+      console.log(`Missing ')'`)
+      return false;
+    }
+    console.log('open:', tracker.open)
+    console.log('close:', tracker.close)
+    return true;
+  }
+}
+
+function sortStack(stack) {
+  let tempStack = new Stack;
+  let temp;
+
+  //iterate oer stack
+  while (stack.top !== null) {
+
+    //move first val in stack to temp var
+    temp = stack.pop()
+
+    while (!isEmpty(tempStack) && peek(tempStack) > temp) {
+      stack.push(tempStack(pop()))
+    }
+
+    tempStack.push(temp)
+  }
+  display(tempStack)
+
+  while (tempStack.top !== null) {
+    stack.push(tempStack.pop())
+  }
+  display(stack)
+}
+
 //-----------------------------------------------
+
+module.exports = {
+  Stack,
+  peek,
+  isEmpty,
+  display,
+  isPalindrome,
+  matchingParens,
+  sortStack
+}
