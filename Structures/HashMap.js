@@ -1,4 +1,5 @@
 //Unordered associations between keys and values
+//Usually implemented using arrays
 
 class HashMap {
   constructor(initialCapacity=8) {
@@ -16,6 +17,7 @@ class HashMap {
     return this._hashTable[index].value;
   }
 
+  //checks if load ratio is greater than given max, and resizes hash map
   set(key, value) {
     const loadRatio = (this.length + this._deleted + 1) / this._capacity;
     if (loadRatio > HashMap.MAX_LOAD_RATIO) {
@@ -61,6 +63,7 @@ class HashMap {
   _resize(size) {
     const oldSlots = this._hashTable;
     this._capacity = size;
+    //Reset length - is rebuilt as more items are added
     this.length = 0;
     this._deleted = 0;
     this._hashTable = [];
@@ -72,6 +75,7 @@ class HashMap {
     }
   }
 
+  //hashes a string and outputs a number
   static _hashString(string) {
     let hash = 5381;
     for (let i=0; i<string.length; i++) {
